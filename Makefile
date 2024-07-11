@@ -5,6 +5,8 @@ DHRY-CFLAGS += -fno-builtin-printf -fno-common -falign-functions=4
 
 #Uncomment below for FPGA run, default DHRY_ITERS is 2000 for RTL
 #DHRY-CFLAGS += -DDHRY_ITERS=20000000
+#Uncomment below for CPU run
+DHRY-CFLAGS += -DDHRY_ITERS=800000000
 
 SRC = dhry_1.c dhry_2.c strcmp.S
 HDR = dhry.h
@@ -13,6 +15,8 @@ override CFLAGS += $(DHRY-CFLAGS) $(XCFLAGS) -Xlinker --defsym=__stack_size=0x80
 dhrystone: $(SRC) $(HDR)
 	$(CC) $(CFLAGS) $(SRC) $(LDFLAGS) $(LOADLIBES) $(LDLIBS) -o $@
 
-clean:
-	rm -f *.i *.s *.o dhrystone dhrystone.hex
+run: clean dhrystone
+	./dhrystone
 
+clean:
+	rm -f *.i *.s *.o *.bc dhrystone dhrystone.hex
