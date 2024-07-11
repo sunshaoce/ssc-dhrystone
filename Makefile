@@ -12,10 +12,10 @@ SRC = dhry_1.c dhry_2.c strcmp.S
 HDR = dhry.h
 
 override CFLAGS += $(DHRY-CFLAGS) $(XCFLAGS) -Xlinker --defsym=__stack_size=0x800 -Xlinker --defsym=__heap_size=0x1000
-dhrystone: $(SRC) $(HDR)
+dhrystone: $(SRC) $(HDR) clean
 	$(CC) $(CFLAGS) $(SRC) $(LDFLAGS) $(LOADLIBES) $(LDLIBS) -o $@
 
-run: clean dhrystone
+run: dhrystone
 	./dhrystone
 
 clean:
